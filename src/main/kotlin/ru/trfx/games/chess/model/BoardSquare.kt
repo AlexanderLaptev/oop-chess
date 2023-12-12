@@ -18,6 +18,15 @@ data class BoardSquare(
          * @return True if the coordinate is valid.
          */
         fun isCoordinateValid(coordinate: Int): Boolean = coordinate in 0..<BoardModel.BOARD_SIZE
+
+        /**
+         * Returns true if both the given coordinates are valid.
+         *
+         * @param rank The rank of the square.
+         * @param file The file of the square.
+         * @return True if both the given coordinates are valid.
+         */
+        fun areCoordinatesValid(rank: Int, file: Int): Boolean = isCoordinateValid(rank) && isCoordinateValid(file)
     }
 
     init {
