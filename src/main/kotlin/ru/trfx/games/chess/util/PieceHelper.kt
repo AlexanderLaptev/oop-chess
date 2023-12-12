@@ -5,9 +5,9 @@ import ru.trfx.games.chess.model.BoardSquare
 import ru.trfx.games.chess.model.piece.PieceColor
 
 /**
- * Performs scanning operations on the chess board.
+ * A helper object containing common methods used by various chess pieces.
  */
-object BoardScanner {
+object PieceHelper {
     /**
      * Scans the board in the given direction and adds valid moves to the accumulator.
      *
@@ -16,7 +16,7 @@ object BoardScanner {
      * @param position The position of the piece.
      * @param deltaRank The change in rank in one step.
      * @param deltaFile The change in file in one step.
-     * @param accumulator A mutable collection of legal moves for the scanning piece.
+     * @param accumulator A mutable collection of moves for the scanning piece.
      */
     fun scanDirection(
         pieceColor: PieceColor,
@@ -41,5 +41,27 @@ object BoardScanner {
                 return
             } else return
         }
+    }
+
+    /**
+     * Adds the given move to the accumulator if the target square is empty or there is an enemy piece there.
+     *
+     * @param pieceColor The color of the moving piece.
+     * @param board The board model.
+     * @param rank The rank of the target cell.
+     * @param file The file of the target cell.
+     * @param accumulator A mutable collection of possible moves for the moving piece.
+     */
+    fun addMoveIfPossible(
+        pieceColor: PieceColor,
+        board: BoardModel,
+        rank: Int,
+        file: Int,
+        accumulator: MutableCollection<BoardSquare>
+    ) {
+        if (!BoardSquare.areCoordinatesValid(rank, file)) return
+        val piece = board.getValueAt(rank, file)
+        if (piece == null || piece.color == pieceColor) return
+        accumulator += BoardSquare(rank, file)
     }
 }
