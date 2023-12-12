@@ -17,7 +17,7 @@ class Rook(color: PieceColor) : Piece(color, 'r') {
     var canCastle: Boolean = false
         private set
 
-    override fun getLegalMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare> {
+    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare> {
         val result = ArrayList<BoardSquare>()
         with(BoardScanner) {
             scanDirection(color, board, position, 0, 1, result)

@@ -10,7 +10,7 @@ import ru.trfx.games.chess.util.BoardScanner
  * @param color The color of the bishop.
  */
 class Bishop(color: PieceColor) : Piece(color, 'b') {
-    override fun getLegalMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare> {
+    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare> {
         val result = ArrayList<BoardSquare>()
         with(BoardScanner) {
             scanDirection(color, board, position, 1, 1, result)

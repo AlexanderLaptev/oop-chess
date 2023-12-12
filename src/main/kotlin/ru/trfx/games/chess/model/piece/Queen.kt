@@ -10,7 +10,7 @@ import ru.trfx.games.chess.util.BoardScanner
  * @param color The color of the queen.
  */
 class Queen(color: PieceColor) : Piece(color, 'q') {
-    override fun getLegalMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare> {
+    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare> {
         val result = ArrayList<BoardSquare>()
         with(BoardScanner) {
             scanDirection(color, board, position, 0, 1, result)

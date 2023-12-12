@@ -36,12 +36,13 @@ abstract class Piece(
 
     /**
      * Returns an immutable collection of the squares this piece can move to.
+     * The moves are not guaranteed to not leave the king in check.
      *
      * @param board The board model.
      * @param position The position of the piece.
      * @return An immutable collection of legal moves of this piece.
      */
-    abstract fun getLegalMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare>
+    abstract fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare>
 
     /**
      * Called when the piece was successfully moved by the player.
