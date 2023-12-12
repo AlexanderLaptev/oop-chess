@@ -9,7 +9,7 @@ import ru.trfx.games.chess.model.piece.Piece
  * @param from The initial position of the piece.
  * @param to The final position of the piece.
  */
-class PlayerMove(
+open class PlayerMove(
     val piece: Piece,
     val from: BoardSquare,
     val to: BoardSquare
