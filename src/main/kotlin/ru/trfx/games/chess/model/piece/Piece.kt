@@ -2,7 +2,6 @@ package ru.trfx.games.chess.model.piece
 
 import ru.trfx.games.chess.model.BoardModel
 import ru.trfx.games.chess.model.BoardSquare
-import ru.trfx.games.chess.model.PlayerMove
 import ru.trfx.games.chess.view.ResizableIcon
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
@@ -40,7 +39,7 @@ abstract class Piece(
      *
      * @param board The board model.
      * @param position The position of the piece.
-     * @return An immutable collection of legal moves of this piece.
+     * @return An immutable collection of possible moves of this piece.
      */
     abstract fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare>
 
@@ -48,9 +47,9 @@ abstract class Piece(
      * Called when the piece was successfully moved by the player.
      *
      * @param board The board model.
-     * @param move The move taken by the player.
+     * @param square The new position of the piece.
      */
-    open fun onMoved(board: BoardModel, move: PlayerMove) = Unit
+    open fun onMoved(board: BoardModel, square: BoardSquare) = Unit
 
     /**
      * Reads a [BufferedImage] resource of the given name from the piece image directory.

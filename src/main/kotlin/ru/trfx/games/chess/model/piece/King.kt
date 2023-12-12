@@ -2,7 +2,6 @@ package ru.trfx.games.chess.model.piece
 
 import ru.trfx.games.chess.model.BoardModel
 import ru.trfx.games.chess.model.BoardSquare
-import ru.trfx.games.chess.model.PlayerMove
 import ru.trfx.games.chess.util.PieceHelper
 import kotlin.math.max
 import kotlin.math.min
@@ -53,7 +52,7 @@ class King(color: PieceColor) : Piece(color, 'k') {
         accumulator += BoardSquare(rank, if (rookFile == 0) 2 else 6)
     }
 
-    override fun onMoved(board: BoardModel, move: PlayerMove) {
+    override fun onMoved(board: BoardModel, square: BoardSquare) {
         canCastle = false
     }
 }

@@ -2,7 +2,6 @@ package ru.trfx.games.chess.model.piece
 
 import ru.trfx.games.chess.model.BoardModel
 import ru.trfx.games.chess.model.BoardSquare
-import ru.trfx.games.chess.model.PlayerMove
 import ru.trfx.games.chess.util.PieceHelper
 
 /**
@@ -28,7 +27,7 @@ class Rook(color: PieceColor) : Piece(color, 'r') {
         return result
     }
 
-    override fun onMoved(board: BoardModel, move: PlayerMove) {
+    override fun onMoved(board: BoardModel, square: BoardSquare) {
         canCastle = false
     }
 }
