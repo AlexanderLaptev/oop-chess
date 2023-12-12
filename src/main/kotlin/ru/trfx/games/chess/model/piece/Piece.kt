@@ -38,11 +38,10 @@ abstract class Piece(
      * Returns an immutable collection of the squares this piece can move to.
      *
      * @param board The board model.
-     * @param from The initial position of the piece.
-     * @param to The target position of the piece.
+     * @param position The position of the piece.
      * @return An immutable collection of legal moves of this piece.
      */
-    abstract fun getLegalMoves(board: BoardModel, from: BoardSquare, to: BoardSquare): Collection<BoardSquare>
+    abstract fun getLegalMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare>
 
     /**
      * Called when the piece was successfully moved by the player.
@@ -50,7 +49,7 @@ abstract class Piece(
      * @param board The board model.
      * @param move The move taken by the player.
      */
-    abstract fun onMoved(board: BoardModel, move: PlayerMove)
+    open fun onMoved(board: BoardModel, move: PlayerMove) = Unit
 
     /**
      * Reads a [BufferedImage] resource of the given name from the piece image directory.
