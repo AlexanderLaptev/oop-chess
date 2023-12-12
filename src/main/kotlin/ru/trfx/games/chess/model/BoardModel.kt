@@ -65,6 +65,9 @@ class BoardModel : AbstractTableModel() {
         var highlightType: HighlightType = HighlightType.None
     )
 
+    /**
+     * An 8x8 array of squares on this board.
+     */
     private val squares = Array(BOARD_SIZE) {
         Array(BOARD_SIZE) { BoardSquare() }
     }
