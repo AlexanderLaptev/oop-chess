@@ -1,6 +1,7 @@
 package ru.trfx.games.chess
 
 import ru.trfx.games.chess.model.BoardModel
+import ru.trfx.games.chess.util.ConfigHelper
 import ru.trfx.games.chess.view.BoardView
 import java.awt.BorderLayout
 import java.awt.Font
@@ -17,22 +18,26 @@ class MainWindow : JFrame() {
         /**
          * The title of the main window.
          */
-        const val TITLE = "KChess v0.1.0"
+        val TITLE = Configuration["window.title"]
 
         /**
          * The border for the chess board.
          */
-        private val CHESS_BOARD_BORDER = EmptyBorder(20, 30, 20, 30)
+        private val CHESS_BOARD_BORDER = EmptyBorder(ConfigHelper.parseInsets("window.boardMargin"))
 
         /**
          * The border for the status label.
          */
-        private val STATUS_LABEL_BORDER = EmptyBorder(0, 8, 4, 0)
+        private val STATUS_LABEL_BORDER = EmptyBorder(ConfigHelper.parseInsets("window.statusLabel.margin"))
 
         /**
          * The font for the status label.
          */
-        private val STATUS_LABEL_FONT = Font(null, Font.PLAIN, 14)
+        private val STATUS_LABEL_FONT = Font(
+            null,
+            Font.PLAIN,
+            Configuration["window.statusLabel.fontSize"]!!.toInt()
+        )
     }
 
     /**
