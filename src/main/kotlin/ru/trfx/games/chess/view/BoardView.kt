@@ -60,6 +60,7 @@ class BoardView(model: BoardModel) : JTable(model) {
 
     /**
      * Prevent the default cell selection behavior.
+     *
      * **Note:** a call to [updateUI] will restore the default
      * behavior, as the UI also sets up the default listeners.
      */

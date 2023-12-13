@@ -18,7 +18,37 @@ class MainWindow : JFrame() {
          * The title of the main window.
          */
         const val TITLE = "KChess v0.1.0"
+
+        /**
+         * The border for the chess board.
+         */
+        private val CHESS_BOARD_BORDER = EmptyBorder(20, 30, 20, 30)
+
+        /**
+         * The border for the status label.
+         */
+        private val STATUS_LABEL_BORDER = EmptyBorder(0, 8, 4, 0)
+
+        /**
+         * The font for the status label.
+         */
+        private val STATUS_LABEL_FONT = Font(null, Font.PLAIN, 14)
     }
+
+    /**
+     * The chess board view.
+     */
+    private lateinit var boardView: BoardView
+
+    /**
+     * The status label. This label is located at the bottom of the window.
+     */
+    private lateinit var statusLabel: JLabel
+
+    /**
+     * The board model.
+     */
+    private val boardModel = BoardModel()
 
     init {
         setUpWindow()
@@ -39,16 +69,21 @@ class MainWindow : JFrame() {
         centerOnScreen()
     }
 
+    /**
+     * Populates the window with the necessary components.
+     */
     private fun addComponents() {
         val panel = JPanel().apply {
-            border = EmptyBorder(20, 30, 20, 30)
-        }
-        val statusLabel = JLabel("Test status.").apply {
-            font = Font(null, Font.PLAIN, 14)
-            border = EmptyBorder(0, 12, 4, 0)
+            border = CHESS_BOARD_BORDER
         }
 
-        panel.add(BoardView(BoardModel()))
+        statusLabel = JLabel("N/A").apply {
+            font = STATUS_LABEL_FONT
+            border = STATUS_LABEL_BORDER
+        }
+
+        boardView = BoardView(boardModel)
+        panel.add(boardView)
         add(panel, BorderLayout.CENTER)
         add(statusLabel, BorderLayout.PAGE_END)
     }
