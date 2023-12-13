@@ -14,7 +14,8 @@ object PieceHelper {
      *
      * @param pieceColor The color of the piece which is scanning the board.
      * @param board The board model.
-     * @param position The position of the piece.
+     * @param rank The rank of the scanning piece.
+     * @param file The file of the scanning piece.
      * @param deltaRank The change in rank in one step.
      * @param deltaFile The change in file in one step.
      * @param accumulator A mutable collection of moves for the scanning piece.
@@ -22,23 +23,24 @@ object PieceHelper {
     fun scanDirection(
         pieceColor: PieceColor,
         board: BoardModel,
-        position: BoardSquare,
+        rank: Int,
+        file: Int,
         deltaRank: Int,
         deltaFile: Int,
         accumulator: MutableCollection<PlayerMove>,
     ) {
-        var rank = position.rank
-        var file = position.file
+        var currentRank = rank
+        var currentFile = file
 
         while (true) {
-            rank += deltaRank
-            file += deltaFile
+            currentRank += deltaRank
+            currentFile += deltaFile
 
-            if (!BoardSquare.areCoordinatesValid(rank, file)) return
-            val otherPiece = board.getValueAt(rank, file)
-            if (otherPiece == null) accumulator += PlayerMove(BoardSquare(rank, file))
+            if (!BoardSquare.areCoordinatesValid(currentRank, currentFile)) return
+            val otherPiece = board.getValueAt(currentRank, currentFile)
+            if (otherPiece == null) accumulator += PlayerMove(BoardSquare(currentRank, currentFile))
             else if (otherPiece.color != pieceColor) {
-                accumulator += PlayerMove(BoardSquare(rank, file))
+                accumulator += PlayerMove(BoardSquare(currentRank, currentFile))
                 return
             } else return
         }
