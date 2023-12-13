@@ -15,7 +15,11 @@ import kotlin.math.min
 class King(color: PieceColor) : Piece(color, 'k') {
     companion object {
         private const val KING_FILE = 4
+        private const val QUEENSIDE_FILE = 2
+        private const val KINGSIDE_FILE = 6
     }
+
+    private class CastlingMove(val rook: Rook, to: BoardSquare) : PlayerMove(to)
 
     private var canCastle: Boolean = true
 
@@ -50,10 +54,20 @@ class King(color: PieceColor) : Piece(color, 'k') {
         for (file in min(rookFile, KING_FILE) + 1..<max(rookFile, KING_FILE)) {
             if (board.hasPieceAt(rank, file)) return
         }
-        accumulator += PlayerMove(BoardSquare(rank, if (rookFile == 0) 2 else 6))
+        accumulator += CastlingMove(rook, BoardSquare(rank, if (rookFile == 0) QUEENSIDE_FILE else KINGSIDE_FILE))
     }
 
     override fun onMoved(board: BoardModel, move: PlayerMove) {
         canCastle = false
+        if (move !is CastlingMove) return
+        with (move) {
+            if (to.file == QUEENSIDE_FILE) {
+                board.setValueAt(null, move.to.rank, 0)
+                board.setValueAt(rook, move.to.rank, QUEENSIDE_FILE + 1)
+            } else if (to.file == KINGSIDE_FILE) {
+                board.setValueAt(null, move.to.rank, BoardModel.BOARD_SIZE - 1)
+                board.setValueAt(rook, move.to.rank, KINGSIDE_FILE - 1)
+            }
+        }
     }
 }
