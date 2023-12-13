@@ -10,18 +10,21 @@ import ru.trfx.games.chess.util.PieceHelper
  * @param color The color of the queen.
  */
 class Queen(color: PieceColor) : Piece(color, 'q') {
-    override fun getPossibleMoves(board: BoardModel, rank: Int, file: Int): Collection<PlayerMove> {
-        val result = ArrayList<PlayerMove>()
+    private val _possibleMoves = ArrayList<PlayerMove>()
+
+    override val possibleMoves: Collection<PlayerMove> get() = _possibleMoves
+
+    override fun updatePossibleMoves(board: BoardModel, rank: Int, file: Int) {
+        _possibleMoves.clear()
         with(PieceHelper) {
-            scanDirection(color, board, rank, file, 0, 1, result)
-            scanDirection(color, board, rank, file, 0, -1, result)
-            scanDirection(color, board, rank, file, 1, 0, result)
-            scanDirection(color, board, rank, file, -1, 0, result)
-            scanDirection(color, board, rank, file, 1, 1, result)
-            scanDirection(color, board, rank, file, 1, -1, result)
-            scanDirection(color, board, rank, file, -1, 1, result)
-            scanDirection(color, board, rank, file, -1, -1, result)
+            scanDirection(color, board, rank, file, 0, 1, _possibleMoves)
+            scanDirection(color, board, rank, file, 0, -1, _possibleMoves)
+            scanDirection(color, board, rank, file, 1, 0, _possibleMoves)
+            scanDirection(color, board, rank, file, -1, 0, _possibleMoves)
+            scanDirection(color, board, rank, file, 1, 1, _possibleMoves)
+            scanDirection(color, board, rank, file, 1, -1, _possibleMoves)
+            scanDirection(color, board, rank, file, -1, 1, _possibleMoves)
+            scanDirection(color, board, rank, file, -1, -1, _possibleMoves)
         }
-        return result
     }
 }

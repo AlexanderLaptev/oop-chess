@@ -16,15 +16,18 @@ class Rook(color: PieceColor) : Piece(color, 'r') {
     var canCastle: Boolean = true
         private set
 
-    override fun getPossibleMoves(board: BoardModel, rank: Int, file: Int): Collection<PlayerMove> {
-        val result = ArrayList<PlayerMove>()
+    private val _possibleMoves = ArrayList<PlayerMove>()
+
+    override val possibleMoves: Collection<PlayerMove> get() = _possibleMoves
+
+    override fun updatePossibleMoves(board: BoardModel, rank: Int, file: Int) {
+        _possibleMoves.clear()
         with(PieceHelper) {
-            scanDirection(color, board, rank, file, 0, 1, result)
-            scanDirection(color, board, rank, file, 0, -1, result)
-            scanDirection(color, board, rank, file, 1, 0, result)
-            scanDirection(color, board, rank, file, -1, 0, result)
+            scanDirection(color, board, rank, file, 0, 1, _possibleMoves)
+            scanDirection(color, board, rank, file, 0, -1, _possibleMoves)
+            scanDirection(color, board, rank, file, 1, 0, _possibleMoves)
+            scanDirection(color, board, rank, file, -1, 0, _possibleMoves)
         }
-        return result
     }
 
     override fun onMoved(board: BoardModel, move: PlayerMove) {

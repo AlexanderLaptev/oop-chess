@@ -19,28 +19,31 @@ class King(color: PieceColor) : Piece(color, 'k') {
         private const val KINGSIDE_FILE = 6
     }
 
+    private val _possibleMoves = ArrayList<PlayerMove>()
+
+    override val possibleMoves: Collection<PlayerMove> get() = _possibleMoves
+
     private class CastlingMove(val rook: Rook, to: BoardSquare) : PlayerMove(to)
 
     private var canCastle: Boolean = true
 
-    override fun getPossibleMoves(board: BoardModel, rank: Int, file: Int): Collection<PlayerMove> {
-        val result = ArrayList<PlayerMove>()
+    override fun updatePossibleMoves(board: BoardModel, rank: Int, file: Int) {
+        _possibleMoves.clear()
         with(PieceHelper) {
-            addMoveIfPossible(color, board, rank - 1, file - 1, result)
-            addMoveIfPossible(color, board, rank - 1, file, result)
-            addMoveIfPossible(color, board, rank - 1, file + 1, result)
-            addMoveIfPossible(color, board, rank, file + 1, result)
-            addMoveIfPossible(color, board, rank, file - 1, result)
-            addMoveIfPossible(color, board, rank + 1, file - 1, result)
-            addMoveIfPossible(color, board, rank + 1, file, result)
-            addMoveIfPossible(color, board, rank + 1, file + 1, result)
+            addMoveIfPossible(color, board, rank - 1, file - 1, _possibleMoves)
+            addMoveIfPossible(color, board, rank - 1, file, _possibleMoves)
+            addMoveIfPossible(color, board, rank - 1, file + 1, _possibleMoves)
+            addMoveIfPossible(color, board, rank, file + 1, _possibleMoves)
+            addMoveIfPossible(color, board, rank, file - 1, _possibleMoves)
+            addMoveIfPossible(color, board, rank + 1, file - 1, _possibleMoves)
+            addMoveIfPossible(color, board, rank + 1, file, _possibleMoves)
+            addMoveIfPossible(color, board, rank + 1, file + 1, _possibleMoves)
         }
 
         if (canCastle) {
-            addCastlingMoveIfPossible(board, rank, 0, result)
-            addCastlingMoveIfPossible(board, rank, BoardModel.BOARD_SIZE - 1, result)
+            addCastlingMoveIfPossible(board, rank, 0, _possibleMoves)
+            addCastlingMoveIfPossible(board, rank, BoardModel.BOARD_SIZE - 1, _possibleMoves)
         }
-        return result
     }
 
     private fun addCastlingMoveIfPossible(

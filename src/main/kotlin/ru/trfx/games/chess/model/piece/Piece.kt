@@ -35,26 +35,29 @@ abstract class Piece(
     val icon: ResizableIcon = ResizableIcon(getPieceImage(imageChar))
 
     /**
-     * Returns an immutable collection of the squares this piece can move to.
+     * An immutable collection of the squares this piece can move to.
      * The moves are not guaranteed to not leave the king in check.
+     */
+    abstract val possibleMoves: Collection<PlayerMove>
+
+    /**
+     * Updates the possible moves for this piece.
      *
      * @param board The board model.
      * @param position The position of the piece.
-     * @return An immutable collection of possible moves of this piece.
      */
-    fun getPossibleMoves(board: BoardModel, position: BoardSquare) =
-        getPossibleMoves(board, position.rank, position.file)
+    fun updatePossibleMoves(board: BoardModel, position: BoardSquare) {
+        updatePossibleMoves(board, position.rank, position.file)
+    }
 
     /**
-     * Returns an immutable collection of the squares this piece can move to.
-     * The moves are not guaranteed to not leave the king in check.
+     * Updates the possible moves for this piece.
      *
      * @param board The board model.
      * @param rank The rank of the piece.
      * @param file The file of the piece
-     * @return An immutable collection of possible moves of this piece.
      */
-    abstract fun getPossibleMoves(board: BoardModel, rank: Int, file: Int): Collection<PlayerMove>
+    abstract fun updatePossibleMoves(board: BoardModel, rank: Int, file: Int)
 
     /**
      * Called when the piece was successfully moved by the player.

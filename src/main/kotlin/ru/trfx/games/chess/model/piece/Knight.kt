@@ -5,18 +5,21 @@ import ru.trfx.games.chess.model.PlayerMove
 import ru.trfx.games.chess.util.PieceHelper
 
 class Knight(color: PieceColor) : Piece(color, 'n') {
-    override fun getPossibleMoves(board: BoardModel, rank: Int, file: Int): Collection<PlayerMove> {
-        val result = ArrayList<PlayerMove>()
+    private val _possibleMoves = ArrayList<PlayerMove>()
+
+    override val possibleMoves: Collection<PlayerMove> get() = _possibleMoves
+
+    override fun updatePossibleMoves(board: BoardModel, rank: Int, file: Int) {
+        _possibleMoves.clear()
         with(PieceHelper) {
-            addMoveIfPossible(color, board, rank + 2, file + 1, result)
-            addMoveIfPossible(color, board, rank + 2, file - 1, result)
-            addMoveIfPossible(color, board, rank - 2, file + 1, result)
-            addMoveIfPossible(color, board, rank - 2, file - 1, result)
-            addMoveIfPossible(color, board, rank + 1, file + 2, result)
-            addMoveIfPossible(color, board, rank + 1, file - 2, result)
-            addMoveIfPossible(color, board, rank - 1, file + 2, result)
-            addMoveIfPossible(color, board, rank - 1, file - 2, result)
+            addMoveIfPossible(color, board, rank + 2, file + 1, _possibleMoves)
+            addMoveIfPossible(color, board, rank + 2, file - 1, _possibleMoves)
+            addMoveIfPossible(color, board, rank - 2, file + 1, _possibleMoves)
+            addMoveIfPossible(color, board, rank - 2, file - 1, _possibleMoves)
+            addMoveIfPossible(color, board, rank + 1, file + 2, _possibleMoves)
+            addMoveIfPossible(color, board, rank + 1, file - 2, _possibleMoves)
+            addMoveIfPossible(color, board, rank - 1, file + 2, _possibleMoves)
+            addMoveIfPossible(color, board, rank - 1, file - 2, _possibleMoves)
         }
-        return result
     }
 }
