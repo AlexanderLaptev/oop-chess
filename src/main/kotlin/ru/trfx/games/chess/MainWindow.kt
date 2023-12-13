@@ -5,6 +5,7 @@ import ru.trfx.games.chess.util.ConfigHelper
 import ru.trfx.games.chess.view.BoardView
 import java.awt.BorderLayout
 import java.awt.Font
+import javax.imageio.ImageIO
 import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.JPanel
@@ -36,7 +37,7 @@ class MainWindow : JFrame() {
         private val STATUS_LABEL_FONT = Font(
             null,
             Font.PLAIN,
-            Configuration["window.statusLabel.fontSize"]!!.toInt()
+            Configuration["window.statusLabel.fontSize"].toInt()
         )
     }
 
@@ -65,12 +66,13 @@ class MainWindow : JFrame() {
      */
     private fun setUpWindow() {
         title = TITLE
+        iconImage = ImageIO.read(this::class.java.getResource("/images/icon.png"))
         defaultCloseOperation = EXIT_ON_CLOSE
         setSize(
-            Configuration["window.defaultWidth"]!!.toInt(),
-            Configuration["window.defaultHeight"]!!.toInt()
+            Configuration["window.defaultWidth"].toInt(),
+            Configuration["window.defaultHeight"].toInt()
         )
-        if (Configuration["window.isMaximized"]!!.toBoolean()) maximize()
+        if (Configuration["window.isMaximized"].toBoolean()) maximize()
         centerOnScreen()
     }
 

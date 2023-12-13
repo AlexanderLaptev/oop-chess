@@ -1,5 +1,7 @@
 package ru.trfx.games.chess.model
 
+import ru.trfx.games.chess.model.piece.PieceColor
+
 /**
  * A square on a chess board. The coordinates are guaranteed to be valid.
  *
@@ -27,6 +29,16 @@ data class BoardSquare(
          * @return True if both the given coordinates are valid.
          */
         fun areCoordinatesValid(rank: Int, file: Int): Boolean = isCoordinateValid(rank) && isCoordinateValid(file)
+
+        /**
+         * Returns the color of the given square.
+         *
+         * @param rank The rank of the square.
+         * @param file The file of the square.
+         * @return The color of the square.
+         */
+        fun getColorForSquare(rank: Int, file: Int): PieceColor =
+            if ((rank + file) % 2 == 0) PieceColor.White else PieceColor.Black
     }
 
     init {

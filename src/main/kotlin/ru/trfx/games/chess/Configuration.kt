@@ -23,9 +23,9 @@ object Configuration {
      * Gets the corresponding configuration option.
      *
      * @param option The name of the option to retrieve.
-     * @return The corresponding configuration option or null if the option is missing.
+     * @return The corresponding configuration option.
      */
-    operator fun get(option: String): String? = properties.getProperty(option)
+    operator fun get(option: String): String = properties.getProperty(option)!!
 
     /**
      * Loads the default properties from the resource file.

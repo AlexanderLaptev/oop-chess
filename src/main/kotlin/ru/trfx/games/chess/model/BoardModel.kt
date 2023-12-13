@@ -44,11 +44,6 @@ class BoardModel : AbstractTableModel() {
         Selected,
 
         /**
-         * Indicates that the square represents a possible capture move.
-         */
-        PossibleCapture,
-
-        /**
          * Indicates that the square is a part of the path of an attacking piece.
          */
         AttackPath,
@@ -87,8 +82,55 @@ class BoardModel : AbstractTableModel() {
      */
     fun hasPieceAt(rank: Int, file: Int): Boolean = squares[rank][file].piece != null
 
+    /**
+     * Gets the highlight type of the given square.
+     *
+     * @param rank The rank of the square.
+     * @param file The file of the square.
+     * @return The highlight type of the square.
+     */
+    fun getHighlightType(rank: Int, file: Int): HighlightType = squares[rank][file].highlightType
+
+    /**
+     * Sets the highlight type for the given square.
+     *
+     * @param type The highlight type for the square.
+     * @param rank The rank of the square.
+     * @param file The file of the square.
+     */
+    fun setHighlightType(type: HighlightType, rank: Int, file: Int) {
+        squares[rank][file].highlightType = type
+        fireTableCellUpdated(rank, file)
+    }
+
+    /**
+     * Sets the mark type for the given square.
+     *
+     * @param type The mark type for the square.
+     * @param rank The rank of the square.
+     * @param file The file of the square.
+     */
+    fun setMarkType(type: MarkType, rank: Int, file: Int) {
+        squares[rank][file].markType = type
+        fireTableCellUpdated(rank, file)
+    }
+
+    /**
+     * Gets the mark type of the given square.
+     *
+     * @param rank The rank of the square.
+     * @param file The file of the square.
+     * @return The mark type of the square.
+     */
+    fun getMarkType(rank: Int, file: Int): MarkType = squares[rank][file].markType
+
     override fun setValueAt(piece: Any?, rank: Int, file: Int) {
         check(piece is Piece?) { "Only pieces can be put on the board." }
         squares[rank][file].piece = piece
+        fireTableCellUpdated(rank, file)
+    }
+
+    override fun getColumnClass(columnIndex: Int): Class<*> {
+        return Piece::class.java
     }
 }
