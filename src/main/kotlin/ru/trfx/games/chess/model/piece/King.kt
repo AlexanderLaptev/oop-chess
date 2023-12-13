@@ -23,22 +23,22 @@ class King(color: PieceColor) : Piece(color, 'k') {
 
     private var canCastle: Boolean = true
 
-    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<PlayerMove> {
+    override fun getPossibleMoves(board: BoardModel, rank: Int, file: Int): Collection<PlayerMove> {
         val result = ArrayList<PlayerMove>()
         with(PieceHelper) {
-            addMoveIfPossible(color, board, position.rank - 1, position.file - 1, result)
-            addMoveIfPossible(color, board, position.rank - 1, position.file, result)
-            addMoveIfPossible(color, board, position.rank - 1, position.file + 1, result)
-            addMoveIfPossible(color, board, position.rank, position.file + 1, result)
-            addMoveIfPossible(color, board, position.rank, position.file - 1, result)
-            addMoveIfPossible(color, board, position.rank + 1, position.file - 1, result)
-            addMoveIfPossible(color, board, position.rank + 1, position.file, result)
-            addMoveIfPossible(color, board, position.rank + 1, position.file + 1, result)
+            addMoveIfPossible(color, board, rank - 1, file - 1, result)
+            addMoveIfPossible(color, board, rank - 1, file, result)
+            addMoveIfPossible(color, board, rank - 1, file + 1, result)
+            addMoveIfPossible(color, board, rank, file + 1, result)
+            addMoveIfPossible(color, board, rank, file - 1, result)
+            addMoveIfPossible(color, board, rank + 1, file - 1, result)
+            addMoveIfPossible(color, board, rank + 1, file, result)
+            addMoveIfPossible(color, board, rank + 1, file + 1, result)
         }
 
         if (canCastle) {
-            addCastlingMoveIfPossible(board, position.rank, 0, result)
-            addCastlingMoveIfPossible(board, position.rank, BoardModel.BOARD_SIZE - 1, result)
+            addCastlingMoveIfPossible(board, rank, 0, result)
+            addCastlingMoveIfPossible(board, rank, BoardModel.BOARD_SIZE - 1, result)
         }
         return result
     }
@@ -60,7 +60,7 @@ class King(color: PieceColor) : Piece(color, 'k') {
     override fun onMoved(board: BoardModel, move: PlayerMove) {
         canCastle = false
         if (move !is CastlingMove) return
-        with (move) {
+        with(move) {
             if (to.file == QUEENSIDE_FILE) {
                 board.setValueAt(null, move.to.rank, 0)
                 board.setValueAt(rook, move.to.rank, QUEENSIDE_FILE + 1)

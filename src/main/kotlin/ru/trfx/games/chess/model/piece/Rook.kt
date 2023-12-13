@@ -1,7 +1,6 @@
 package ru.trfx.games.chess.model.piece
 
 import ru.trfx.games.chess.model.BoardModel
-import ru.trfx.games.chess.model.BoardSquare
 import ru.trfx.games.chess.model.PlayerMove
 import ru.trfx.games.chess.util.PieceHelper
 
@@ -17,13 +16,13 @@ class Rook(color: PieceColor) : Piece(color, 'r') {
     var canCastle: Boolean = true
         private set
 
-    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<PlayerMove> {
+    override fun getPossibleMoves(board: BoardModel, rank: Int, file: Int): Collection<PlayerMove> {
         val result = ArrayList<PlayerMove>()
         with(PieceHelper) {
-            scanDirection(color, board, position, 0, 1, result)
-            scanDirection(color, board, position, 0, -1, result)
-            scanDirection(color, board, position, 1, 0, result)
-            scanDirection(color, board, position, -1, 0, result)
+            scanDirection(color, board, rank, file, 0, 1, result)
+            scanDirection(color, board, rank, file, 0, -1, result)
+            scanDirection(color, board, rank, file, 1, 0, result)
+            scanDirection(color, board, rank, file, -1, 0, result)
         }
         return result
     }

@@ -42,7 +42,19 @@ abstract class Piece(
      * @param position The position of the piece.
      * @return An immutable collection of possible moves of this piece.
      */
-    abstract fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<PlayerMove>
+    fun getPossibleMoves(board: BoardModel, position: BoardSquare) =
+        getPossibleMoves(board, position.rank, position.file)
+
+    /**
+     * Returns an immutable collection of the squares this piece can move to.
+     * The moves are not guaranteed to not leave the king in check.
+     *
+     * @param board The board model.
+     * @param rank The rank of the piece.
+     * @param file The file of the piece
+     * @return An immutable collection of possible moves of this piece.
+     */
+    abstract fun getPossibleMoves(board: BoardModel, rank: Int, file: Int): Collection<PlayerMove>
 
     /**
      * Called when the piece was successfully moved by the player.
