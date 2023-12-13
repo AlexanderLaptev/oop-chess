@@ -2,6 +2,7 @@ package ru.trfx.games.chess.util
 
 import ru.trfx.games.chess.model.BoardModel
 import ru.trfx.games.chess.model.BoardSquare
+import ru.trfx.games.chess.model.PlayerMove
 import ru.trfx.games.chess.model.piece.PieceColor
 
 /**
@@ -24,7 +25,7 @@ object PieceHelper {
         position: BoardSquare,
         deltaRank: Int,
         deltaFile: Int,
-        accumulator: MutableCollection<BoardSquare>,
+        accumulator: MutableCollection<PlayerMove>,
     ) {
         var rank = position.rank
         var file = position.file
@@ -35,9 +36,9 @@ object PieceHelper {
 
             if (!BoardSquare.areCoordinatesValid(rank, file)) return
             val otherPiece = board.getValueAt(rank, file)
-            if (otherPiece == null) accumulator += BoardSquare(rank, file)
+            if (otherPiece == null) accumulator += PlayerMove(BoardSquare(rank, file))
             else if (otherPiece.color != pieceColor) {
-                accumulator += BoardSquare(rank, file)
+                accumulator += PlayerMove(BoardSquare(rank, file))
                 return
             } else return
         }
@@ -57,11 +58,11 @@ object PieceHelper {
         board: BoardModel,
         rank: Int,
         file: Int,
-        accumulator: MutableCollection<BoardSquare>
+        accumulator: MutableCollection<PlayerMove>
     ) {
         if (!BoardSquare.areCoordinatesValid(rank, file)) return
         val piece = board.getValueAt(rank, file)
         if (piece == null || piece.color == pieceColor) return
-        accumulator += BoardSquare(rank, file)
+        accumulator += PlayerMove(BoardSquare(rank, file))
     }
 }

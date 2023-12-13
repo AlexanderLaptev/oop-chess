@@ -2,6 +2,7 @@ package ru.trfx.games.chess.model.piece
 
 import ru.trfx.games.chess.model.BoardModel
 import ru.trfx.games.chess.model.BoardSquare
+import ru.trfx.games.chess.model.PlayerMove
 import ru.trfx.games.chess.util.PieceHelper
 import kotlin.math.max
 import kotlin.math.min
@@ -18,8 +19,8 @@ class King(color: PieceColor) : Piece(color, 'k') {
 
     private var canCastle: Boolean = true
 
-    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare> {
-        val result = ArrayList<BoardSquare>()
+    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<PlayerMove> {
+        val result = ArrayList<PlayerMove>()
         with(PieceHelper) {
             addMoveIfPossible(color, board, position.rank - 1, position.file - 1, result)
             addMoveIfPossible(color, board, position.rank - 1, position.file, result)
@@ -42,17 +43,17 @@ class King(color: PieceColor) : Piece(color, 'k') {
         board: BoardModel,
         rank: Int,
         rookFile: Int,
-        accumulator: MutableCollection<BoardSquare>
+        accumulator: ArrayList<PlayerMove>
     ) {
         val rook = board.getValueAt(rank, rookFile) as? Rook
         if (rook == null || rook.canCastle) return
         for (file in min(rookFile, KING_FILE) + 1..<max(rookFile, KING_FILE)) {
             if (board.hasPieceAt(rank, file)) return
         }
-        accumulator += BoardSquare(rank, if (rookFile == 0) 2 else 6)
+        accumulator += PlayerMove(BoardSquare(rank, if (rookFile == 0) 2 else 6))
     }
 
-    override fun onMoved(board: BoardModel, square: BoardSquare) {
+    override fun onMoved(board: BoardModel, move: PlayerMove) {
         canCastle = false
     }
 }

@@ -2,6 +2,7 @@ package ru.trfx.games.chess.model.piece
 
 import ru.trfx.games.chess.model.BoardModel
 import ru.trfx.games.chess.model.BoardSquare
+import ru.trfx.games.chess.model.PlayerMove
 import ru.trfx.games.chess.util.PieceHelper
 
 /**
@@ -10,8 +11,8 @@ import ru.trfx.games.chess.util.PieceHelper
  * @param color The color of the queen.
  */
 class Queen(color: PieceColor) : Piece(color, 'q') {
-    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare> {
-        val result = ArrayList<BoardSquare>()
+    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<PlayerMove> {
+        val result = ArrayList<PlayerMove>()
         with(PieceHelper) {
             scanDirection(color, board, position, 0, 1, result)
             scanDirection(color, board, position, 0, -1, result)

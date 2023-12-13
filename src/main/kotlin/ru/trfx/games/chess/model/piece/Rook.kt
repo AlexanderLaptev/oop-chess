@@ -2,6 +2,7 @@ package ru.trfx.games.chess.model.piece
 
 import ru.trfx.games.chess.model.BoardModel
 import ru.trfx.games.chess.model.BoardSquare
+import ru.trfx.games.chess.model.PlayerMove
 import ru.trfx.games.chess.util.PieceHelper
 
 /**
@@ -16,8 +17,8 @@ class Rook(color: PieceColor) : Piece(color, 'r') {
     var canCastle: Boolean = true
         private set
 
-    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<BoardSquare> {
-        val result = ArrayList<BoardSquare>()
+    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<PlayerMove> {
+        val result = ArrayList<PlayerMove>()
         with(PieceHelper) {
             scanDirection(color, board, position, 0, 1, result)
             scanDirection(color, board, position, 0, -1, result)
@@ -27,7 +28,7 @@ class Rook(color: PieceColor) : Piece(color, 'r') {
         return result
     }
 
-    override fun onMoved(board: BoardModel, square: BoardSquare) {
+    override fun onMoved(board: BoardModel, move: PlayerMove) {
         canCastle = false
     }
 }
