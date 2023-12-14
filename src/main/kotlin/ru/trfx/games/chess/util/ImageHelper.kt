@@ -1,6 +1,6 @@
 package ru.trfx.games.chess.util
 
-import java.awt.RenderingHints
+import net.coobird.thumbnailator.Thumbnails
 import java.awt.image.BufferedImage
 
 /**
@@ -18,15 +18,6 @@ object ImageHelper {
      */
     fun resize(image: BufferedImage, newWidth: Int, newHeight: Int): BufferedImage {
         if (image.width == newWidth && image.height == newHeight) return image
-
-        val result = BufferedImage(newWidth, newHeight, image.type)
-        val g2d = result.createGraphics()
-        try {
-            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
-            g2d.drawImage(image, 0, 0, newWidth, newHeight, null)
-        } finally {
-            g2d.dispose()
-        }
-        return result
+        return Thumbnails.of(image).size(newWidth, newHeight).asBufferedImage()
     }
 }
