@@ -53,7 +53,7 @@ class King(color: PieceColor) : Piece(color, 'k') {
         accumulator: ArrayList<PlayerMove>
     ) {
         val rook = board.getValueAt(rank, rookFile) as? Rook
-        if (rook == null || rook.canCastle) return
+        if (rook == null || !rook.canCastle) return
         for (file in min(rookFile, KING_FILE) + 1..<max(rookFile, KING_FILE)) {
             if (board.hasPieceAt(rank, file)) return
         }

@@ -9,11 +9,11 @@ import ru.trfx.games.chess.util.PieceHelper
  *
  * @param color The color of the rook.
  */
-class Rook(color: PieceColor) : Piece(color, 'r') {
+class Rook(color: PieceColor, canCastle: Boolean = true) : Piece(color, 'r') {
     /**
      * Whether this rook can castle.
      */
-    var canCastle: Boolean = true
+    var canCastle: Boolean = canCastle
         private set
 
     private val _possibleMoves = ArrayList<PlayerMove>()

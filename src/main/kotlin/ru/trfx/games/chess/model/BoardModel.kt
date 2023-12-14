@@ -24,9 +24,9 @@ class BoardModel : AbstractTableModel() {
         None,
 
         /**
-         * Indicates that the mark represents a legal move.
+         * Indicates that the mark represents a possible move.
          */
-        LegalMove,
+        PossibleMove,
     }
 
     /**

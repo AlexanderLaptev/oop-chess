@@ -64,7 +64,6 @@ object PieceHelper {
     ) {
         if (!BoardSquare.areCoordinatesValid(rank, file)) return
         val piece = board.getValueAt(rank, file)
-        if (piece == null || piece.color == pieceColor) return
-        accumulator += PlayerMove(BoardSquare(rank, file))
+        if (piece == null || piece.color != pieceColor) accumulator += PlayerMove(BoardSquare(rank, file))
     }
 }

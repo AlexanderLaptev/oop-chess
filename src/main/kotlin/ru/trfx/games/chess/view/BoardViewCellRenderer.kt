@@ -109,7 +109,7 @@ class BoardViewCellRenderer : TableCellRenderer {
     private fun configureTint(row: Int, column: Int, model: BoardModel) {
         val markType = model.getMarkType(row, column)
         val piece = model.getValueAt(row, column)
-        if (markType == MarkType.LegalMove && piece != null) {
+        if (markType == MarkType.PossibleMove && piece != null) {
             label.tintColor = POSSIBLE_CAPTURE_TINT_COLOR
             return
         }
@@ -144,7 +144,7 @@ class BoardViewCellRenderer : TableCellRenderer {
 
         val markColor = when (model.getMarkType(row, column)) {
             MarkType.None -> null
-            MarkType.LegalMove -> MARK_LEGAL_MOVE_COLOR
+            MarkType.PossibleMove -> MARK_LEGAL_MOVE_COLOR
         }
 
         label.markColor = markColor

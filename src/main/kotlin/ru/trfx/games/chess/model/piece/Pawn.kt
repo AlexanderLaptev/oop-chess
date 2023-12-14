@@ -1,64 +1,85 @@
 package ru.trfx.games.chess.model.piece
 
+import ru.trfx.games.chess.controller.MessageBoxProxy
 import ru.trfx.games.chess.model.BoardModel
 import ru.trfx.games.chess.model.BoardSquare
 import ru.trfx.games.chess.model.GameState
 import ru.trfx.games.chess.model.PlayerMove
 
+// TODO: promotion
 class Pawn(private val gameState: GameState, color: PieceColor) : Piece(color, 'p') {
-    private val initialRank: Int
-        get() = when (color) {
-            PieceColor.Black -> 1
-            PieceColor.White -> 6
-        }
+    private val initialRank: Int = when (color) {
+        PieceColor.Black -> 1
+        PieceColor.White -> BoardModel.BOARD_SIZE - 2
+    }
+
+    private val promotionRank: Int = when (color) {
+        PieceColor.Black -> BoardModel.BOARD_SIZE - 1
+        PieceColor.White -> 0
+    }
+
+    private val _possibleMoves = ArrayList<PlayerMove>()
+
+    override val possibleMoves: Collection<PlayerMove> get() = _possibleMoves
 
     private class DoubleMove(val pawn: Pawn, to: BoardSquare) : PlayerMove(to)
 
-    class EnPassantMove(val enemyPawn: Pawn, to: BoardSquare) : PlayerMove(to)
+    private class EnPassantMove(val lastMove: DoubleMove, to: BoardSquare) : PlayerMove(to)
 
-    override fun getPossibleMoves(board: BoardModel, position: BoardSquare): Collection<PlayerMove> {
+    override fun updatePossibleMoves(board: BoardModel, rank: Int, file: Int) {
+        _possibleMoves.clear()
+
         val deltaRank = when (color) {
             PieceColor.Black -> 1
             PieceColor.White -> -1
         }
-        val result = ArrayList<PlayerMove>()
 
-        var rank = position.rank + deltaRank
-        val lastMove = gameState.getLastMoveForPlayer(color)
-        if (position.file > 0) {
-            processDiagonalMove(board, position, rank, -1, lastMove, result)
+        var currentRank = rank + deltaRank
+        if (!BoardSquare.isCoordinateValid(currentRank)) return
+
+        val lastMove = gameState.getStateForPlayer(color.opposite).lastMove
+        if (file > 0) {
+            processDiagonalMove(board, file, currentRank, -1, lastMove, _possibleMoves)
         }
-        if (position.file < BoardModel.BOARD_SIZE - 1) {
-            processDiagonalMove(board, position, rank, 1, lastMove, result)
+        if (file < BoardModel.BOARD_SIZE - 1) {
+            processDiagonalMove(board, file, currentRank, 1, lastMove, _possibleMoves)
         }
 
-        var piece = board.getValueAt(rank, position.file)
+        var piece = board.getValueAt(currentRank, file)
         if (piece == null) {
-            result += PlayerMove(BoardSquare(rank, position.file))
+            _possibleMoves += PlayerMove(BoardSquare(currentRank, file))
 
-            if (position.rank == initialRank) {
-                rank += deltaRank
-                piece = board.getValueAt(rank, position.file)
-                if (piece == null) result += DoubleMove(this, BoardSquare(rank, position.file))
+            if (rank == initialRank) {
+                currentRank += deltaRank
+                piece = board.getValueAt(currentRank, file)
+                if (piece == null) _possibleMoves += DoubleMove(this, BoardSquare(currentRank, file))
             }
         }
-        return result
     }
 
     private fun processDiagonalMove(
         board: BoardModel,
-        position: BoardSquare,
-        rank: Int,
+        file: Int,
+        moveRank: Int,
         deltaFile: Int,
         lastMove: PlayerMove?,
         accumulator: MutableCollection<PlayerMove>
     ) {
-        val file = position.file - deltaFile
-        val piece = board.getValueAt(rank, file)
+        if (!BoardSquare.isCoordinateValid(moveRank)) return
+        val currentFile = file + deltaFile
+        val piece = board.getValueAt(moveRank, currentFile)
         if (piece != null) {
-            if (piece.color != color) accumulator += PlayerMove(BoardSquare(rank, file))
-        } else if (lastMove is DoubleMove && lastMove.to.file == file) {
-            accumulator += EnPassantMove(lastMove.pawn, BoardSquare(rank, file))
+            if (piece.color != color) accumulator += PlayerMove(BoardSquare(moveRank, currentFile))
+        } else if (lastMove is DoubleMove && lastMove.to.file == currentFile) {
+            accumulator += EnPassantMove(lastMove, BoardSquare(moveRank, currentFile))
+        }
+    }
+
+    override fun onMoved(board: BoardModel, move: PlayerMove) {
+        if (move is EnPassantMove) board.setValueAt(null, move.lastMove.to.rank, move.lastMove.to.file)
+        else if (move.to.rank == promotionRank) {
+            val result = MessageBoxProxy.showPromotionDialog(color)
+            board.setValueAt(result, move.to.rank, move.to.file)
         }
     }
 }

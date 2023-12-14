@@ -12,5 +12,11 @@ enum class PieceColor {
     /**
      * The color of a white piece.
      */
-    White
+    White;
+
+    val opposite: PieceColor
+        get() = when (this) {
+            Black -> White
+            White -> Black
+        }
 }

@@ -1,5 +1,8 @@
 package ru.trfx.games.chess
 
+import ru.trfx.games.chess.controller.CellClickListener
+import ru.trfx.games.chess.controller.GameController
+import ru.trfx.games.chess.controller.KeyboardListener
 import ru.trfx.games.chess.model.BoardModel
 import ru.trfx.games.chess.util.ConfigHelper
 import ru.trfx.games.chess.view.BoardView
@@ -56,9 +59,15 @@ class MainWindow : JFrame() {
      */
     private val boardModel = BoardModel()
 
+    /**
+     * The game controller.
+     */
+    private lateinit var gameController: GameController
+
     init {
         setUpWindow()
         addComponents()
+        setUpController()
     }
 
     /**
@@ -93,6 +102,12 @@ class MainWindow : JFrame() {
         panel.add(boardView)
         add(panel, BorderLayout.CENTER)
         add(statusLabel, BorderLayout.PAGE_END)
+    }
+
+    private fun setUpController() {
+        gameController = GameController(boardModel, boardView)
+        boardView.addMouseListener(CellClickListener(gameController))
+        addKeyListener(KeyboardListener(gameController))
     }
 
     /**
