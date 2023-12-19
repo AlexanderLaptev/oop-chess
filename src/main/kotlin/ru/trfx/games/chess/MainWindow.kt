@@ -108,6 +108,7 @@ class MainWindow : JFrame() {
         gameController = GameController(boardModel, boardView)
         boardView.addMouseListener(CellClickListener(gameController))
         addKeyListener(KeyboardListener(gameController))
+        gameController.statusLabel = statusLabel
     }
 
     /**

@@ -117,7 +117,7 @@ class BoardViewCellRenderer : TableCellRenderer {
         label.tintColor = when (model.getHighlightType(row, column)) {
             HighlightType.None -> null
             HighlightType.Selected -> SELECTED_TINT_COLOR
-            HighlightType.AttackPath -> ATTACK_PATH_TINT_COLOR
+            HighlightType.Attack -> ATTACK_PATH_TINT_COLOR
         }
     }
 

@@ -6,7 +6,6 @@ import ru.trfx.games.chess.model.BoardSquare
 import ru.trfx.games.chess.model.GameState
 import ru.trfx.games.chess.model.PlayerMove
 
-// TODO: promotion
 class Pawn(private val gameState: GameState, color: PieceColor) : Piece(color, 'p') {
     private val initialRank: Int = when (color) {
         PieceColor.Black -> 1
@@ -39,10 +38,10 @@ class Pawn(private val gameState: GameState, color: PieceColor) : Piece(color, '
 
         val lastMove = gameState.getStateForPlayer(color.opposite).lastMove
         if (file > 0) {
-            processDiagonalMove(board, file, currentRank, -1, lastMove, _possibleMoves)
+            processDiagonalMove(board, rank, file, currentRank, -1, lastMove, _possibleMoves)
         }
         if (file < BoardModel.BOARD_SIZE - 1) {
-            processDiagonalMove(board, file, currentRank, 1, lastMove, _possibleMoves)
+            processDiagonalMove(board, rank, file, currentRank, 1, lastMove, _possibleMoves)
         }
 
         var piece = board.getValueAt(currentRank, file)
@@ -59,6 +58,7 @@ class Pawn(private val gameState: GameState, color: PieceColor) : Piece(color, '
 
     private fun processDiagonalMove(
         board: BoardModel,
+        rank: Int,
         file: Int,
         moveRank: Int,
         deltaFile: Int,
@@ -70,7 +70,7 @@ class Pawn(private val gameState: GameState, color: PieceColor) : Piece(color, '
         val piece = board.getValueAt(moveRank, currentFile)
         if (piece != null) {
             if (piece.color != color) accumulator += PlayerMove(BoardSquare(moveRank, currentFile))
-        } else if (lastMove is DoubleMove && lastMove.to.file == currentFile) {
+        } else if (lastMove is DoubleMove && lastMove.to.file == currentFile && lastMove.to.rank == rank) {
             accumulator += EnPassantMove(lastMove, BoardSquare(moveRank, currentFile))
         }
     }

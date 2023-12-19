@@ -12,6 +12,11 @@ class BoardModel : AbstractTableModel() {
          * The number of squares in each rank or file.
          */
         const val BOARD_SIZE = 8
+
+        /**
+         * The last index of any rank or file.
+         */
+        const val LAST_INDEX = BOARD_SIZE - 1
     }
 
     /**
@@ -44,17 +49,17 @@ class BoardModel : AbstractTableModel() {
         Selected,
 
         /**
-         * Indicates that the square is a part of the path of an attacking piece.
+         * Indicates that the square is either an attacking piece or a checked king.
          */
-        AttackPath,
+        Attack,
     }
 
     /**
-     * Represents a board square.
+     * Represents a board square with visual data.
      *
      * @param piece The piece occupying this square.
      */
-    private data class BoardSquare(
+    private data class Cell(
         var piece: Piece? = null,
         var markType: MarkType = MarkType.None,
         var highlightType: HighlightType = HighlightType.None
@@ -64,7 +69,22 @@ class BoardModel : AbstractTableModel() {
      * An 8x8 array of squares on this board.
      */
     private val squares = Array(BOARD_SIZE) {
-        Array(BOARD_SIZE) { BoardSquare() }
+        Array(BOARD_SIZE) { Cell() }
+    }
+
+    init {
+        clear()
+    }
+
+    /**
+     * Clears the highlighting and marks.
+     */
+    fun clear() {
+        forEachSquare { rank, file ->
+            setValueAt(null, rank, file)
+            setHighlightType(HighlightType.None, rank, file)
+            setMarkType(MarkType.None, rank, file)
+        }
     }
 
     override fun getRowCount(): Int = BOARD_SIZE
@@ -132,5 +152,18 @@ class BoardModel : AbstractTableModel() {
 
     override fun getColumnClass(columnIndex: Int): Class<*> {
         return Piece::class.java
+    }
+
+    /**
+     * Performs the given action on each square of the board.
+     *
+     * @param action The action to perform.
+     */
+    inline fun forEachSquare(action: (rank: Int, file: Int) -> Unit) {
+        for (i in 0..LAST_INDEX) {
+            for (j in 0..LAST_INDEX) {
+                action(i, j)
+            }
+        }
     }
 }

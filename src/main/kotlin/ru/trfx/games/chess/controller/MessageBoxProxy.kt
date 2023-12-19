@@ -1,11 +1,6 @@
 package ru.trfx.games.chess.controller
 
-import ru.trfx.games.chess.model.piece.Bishop
-import ru.trfx.games.chess.model.piece.Knight
-import ru.trfx.games.chess.model.piece.Piece
-import ru.trfx.games.chess.model.piece.PieceColor
-import ru.trfx.games.chess.model.piece.Queen
-import ru.trfx.games.chess.model.piece.Rook
+import ru.trfx.games.chess.model.piece.*
 import javax.swing.JOptionPane
 
 object MessageBoxProxy {
@@ -28,5 +23,14 @@ object MessageBoxProxy {
             3 -> Knight(pieceColor)
             else -> error("Unexpected option index: $result.")
         }
+    }
+
+    fun showCheckmateMessage() {
+        JOptionPane.showMessageDialog(
+            null,
+            "Checkmate!",
+            "Checkmate",
+            JOptionPane.OK_OPTION
+        )
     }
 }

@@ -1,11 +1,7 @@
 package ru.trfx.games.chess.view
 
 import ru.trfx.games.chess.Configuration
-import java.awt.Color
-import java.awt.Component
-import java.awt.Graphics
-import java.awt.Graphics2D
-import java.awt.RenderingHints
+import java.awt.*
 import javax.swing.JLabel
 import javax.swing.SwingConstants
 

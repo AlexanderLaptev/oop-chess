@@ -11,6 +11,6 @@ import java.awt.event.KeyEvent
  */
 class KeyboardListener(val controller: GameController) : KeyAdapter() {
     override fun keyPressed(e: KeyEvent?) {
-        if (e != null && e.keyCode == KeyEvent.VK_ESCAPE) controller.clearCellSelection()
+        if (e != null && e.keyCode == KeyEvent.VK_ESCAPE) controller.clearSelection()
     }
 }
