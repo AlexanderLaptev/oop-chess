@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "ru.trfx.games.chess"
-version = "0.1.0"
+version = "1.0.0"
 
 application {
     mainClass.set("ru.trfx.games.chess.MainKt")
