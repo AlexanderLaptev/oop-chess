@@ -10,7 +10,7 @@ import ru.trfx.games.chess.util.PieceHelper
  * @param color The color of the bishop.
  */
 class Bishop(color: PieceColor) : Piece(color, 'b') {
-    private val _possibleMoves = ArrayList<PlayerMove>()
+    private val _possibleMoves = mutableListOf<PlayerMove>()
 
     override val possibleMoves: Collection<PlayerMove> get() = _possibleMoves
 

@@ -16,7 +16,7 @@ class Rook(color: PieceColor, canCastle: Boolean = true) : Piece(color, 'r') {
     var canCastle: Boolean = canCastle
         private set
 
-    private val _possibleMoves = ArrayList<PlayerMove>()
+    private val _possibleMoves = mutableListOf<PlayerMove>()
 
     override val possibleMoves: Collection<PlayerMove> get() = _possibleMoves
 

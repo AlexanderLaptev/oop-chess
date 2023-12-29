@@ -19,7 +19,7 @@ class King(color: PieceColor) : Piece(color, 'k') {
         private const val KINGSIDE_FILE = 6
     }
 
-    private val _possibleMoves = ArrayList<PlayerMove>()
+    private val _possibleMoves = mutableListOf<PlayerMove>()
 
     override val possibleMoves: Collection<PlayerMove> get() = _possibleMoves
 
@@ -50,7 +50,7 @@ class King(color: PieceColor) : Piece(color, 'k') {
         board: BoardModel,
         rank: Int,
         rookFile: Int,
-        accumulator: ArrayList<PlayerMove>
+        accumulator: MutableList<PlayerMove>
     ) {
         val rook = board.getValueAt(rank, rookFile) as? Rook
         if (rook == null || !rook.canCastle) return

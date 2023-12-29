@@ -17,7 +17,7 @@ class Pawn(private val gameState: GameState, color: PieceColor) : Piece(color, '
         PieceColor.White -> 0
     }
 
-    private val _possibleMoves = ArrayList<PlayerMove>()
+    private val _possibleMoves = mutableListOf<PlayerMove>()
 
     override val possibleMoves: Collection<PlayerMove> get() = _possibleMoves
 

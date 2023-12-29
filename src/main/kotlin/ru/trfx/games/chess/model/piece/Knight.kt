@@ -5,7 +5,7 @@ import ru.trfx.games.chess.model.PlayerMove
 import ru.trfx.games.chess.util.PieceHelper
 
 class Knight(color: PieceColor) : Piece(color, 'n') {
-    private val _possibleMoves = ArrayList<PlayerMove>()
+    private val _possibleMoves = mutableListOf<PlayerMove>()
 
     override val possibleMoves: Collection<PlayerMove> get() = _possibleMoves
 
